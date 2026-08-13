@@ -1,0 +1,38 @@
+# Apple clangd does not expand %/ (config-file directory). Relative -I paths in
+# this file are resolved against the source file's directory, so include paths
+# live in compile_flags.txt (its directory becomes the compile CWD).
+If:
+  PathMatch: .*\.(cu|cuh)$
+CompileFlags:
+  Add:
+    - -xc++
+    - -std=c++17
+    - -include
+    - third_party/lsp/cuda_keywords.h
+    # Avoid -D__CUDACC__: pulls CUDA math_functions that break Apple libc++.
+    # Avoid -D__CUDA_ARCH__: enables PTX asm in CUTLASS float8/half that Apple clang rejects.
+    - -D__CUDACC_VER_MAJOR__=12
+    - -D__CUDACC_VER_MINOR__=9
+    - -DCUTLASS_ARCH_MMA_SM90_SUPPORTED=1
+    - -Wno-ignored-attributes
+    - -Wno-unknown-cuda-version
+    # CuTe specializes std::is_reference for subbyte_reference; Apple libc++
+    # marks that trait [[no_specializations]] (DefaultError).
+    - -Wno-invalid-specialization
+Diagnostics:
+  Suppress:
+    - variadic_device_fn
+    - attributes_not_allowed
+    - invalid-specialization
+
+---
+
+If:
+  PathMatch: .*\.(h|hpp)$
+CompileFlags:
+  Add:
+    - -std=c++17
+    - -D__CUDACC_VER_MAJOR__=12
+    - -D__CUDACC_VER_MINOR__=9
+    - -DCUTLASS_ARCH_MMA_SM90_SUPPORTED=1
+    - -Wno-ignored-attributes

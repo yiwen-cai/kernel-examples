@@ -1,0 +1,19 @@
+{
+  "python.defaultInterpreterPath": "${workspaceFolder}/.venv/bin/python",
+  "python.analysis.extraPaths": [
+    "${workspaceFolder}/third_party/triton/python"
+  ],
+  "clangd.path": "/usr/bin/clangd",
+  "clangd.arguments": [
+    "--background-index",
+    "--header-insertion=never"
+  ],
+  "C_Cpp.intelliSenseEngine": "disabled",
+  "files.associations": {
+    "*.cu": "cpp",
+    "*.cuh": "cpp"
+  },
+  "cursorpyright.analysis.extraPaths": [
+    "${workspaceFolder}/third_party/triton/python"
+  ]
+}

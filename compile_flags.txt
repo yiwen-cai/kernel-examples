@@ -1,0 +1,3 @@
+-Ithird_party/cuda-toolkit/include
+-Ithird_party/cutlass/include
+-Wno-invalid-specialization

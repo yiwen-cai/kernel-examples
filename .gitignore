@@ -1,0 +1,27 @@
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+dist/
+build/
+
+# Bootstrap-generated LSP assets (not committed)
+third_party/cuda-toolkit/
+third_party/cutlass/
+third_party/triton/
+.cache/cuda-wheels/
+.cache/cuda-site/
+
+# Editor / OS
+.DS_Store
+*.swp
+.idea/
+*.code-workspace
+
+# clangd index
+.cache/clangd/
+compile_commands.json

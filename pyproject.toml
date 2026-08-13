@@ -1,0 +1,13 @@
+[project]
+name = "kernel-examples"
+version = "0.1.0"
+description = "Template kernels (Triton / CUDA / CuTe) with Mac-friendly LSP setup"
+requires-python = ">=3.12"
+dependencies = [
+    "numpy",
+    "torch",
+]
+
+[tool.uv]
+# Triton has no macOS wheels; source is vendored via scripts/bootstrap_lsp.sh
+package = false

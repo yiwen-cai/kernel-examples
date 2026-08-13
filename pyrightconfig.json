@@ -1,0 +1,10 @@
+{
+  "venvPath": ".",
+  "venv": ".venv",
+  "extraPaths": ["third_party/triton/python"],
+  "stubPath": "typings",
+  "reportMissingModuleSource": "none",
+  "reportMissingImports": "warning",
+  "pythonVersion": "3.12",
+  "include": ["examples", "kernels", "typings"]
+}
