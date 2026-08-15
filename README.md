@@ -43,9 +43,15 @@ CUDA 和 CuTe 都是 `.cu`，include 不同，不要混在一个目录。
 
 | 路径 | 内容 |
 |---|---|
+| `kernels/cuda/layernorm.cu` | LayerNorm（Two-Pass Baseline） |
+| `kernels/cuda/welfordLayerNorm.cu` | LayerNorm（Welford 算法 Single-Pass / Chan's 并行归约） |
+| `kernels/cuda/rmsnorm.cu` | RMSNorm |
 | `kernels/cuda/quant/int8_per_token.cu` | int8 per-token quant |
 | `kernels/cute/gemm/bf16_tn_sm80.cu` | SM80 BF16 TN GEMM |
+| `kernels/triton/layernorm.py` | LayerNorm |
+| `kernels/triton/rmsnorm.py` | RMSNorm |
 | `kernels/triton/softmax.py` | softmax |
+| `kernels/triton/flashattention.py` | FlashAttention forward |
 | `kernels/triton/quant/int8_per_token.py` | int8 per-token quant |
 | `kernels/triton/quant/int8_per_group.py` | int8 per-group quant |
 
@@ -68,6 +74,6 @@ CUDA 和 CuTe 都是 `.cu`，include 不同，不要混在一个目录。
 
 `compile_flags.txt` 的 `-I` 相对仓库根，kernel 放在子目录里仍然能跳转到 CUTLASS。
 
-默认版本（可用环境变量覆盖）：Triton `v3.4.0`，CUTLASS `4.7.0`，CUDA 12 头文件来自 Linux wheel。
+默认版本（可用环境变量覆盖）：Triton `v3.4.0`，CUTLASS `v4.7.0`，CUDA 12 头文件来自 Linux wheel。
 
 NVIDIA 头文件是专有许可，`third_party/cuda-toolkit/`、`cutlass/`、`triton/` 已在 `.gitignore` 里，不要提交。
