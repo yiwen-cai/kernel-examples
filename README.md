@@ -46,6 +46,7 @@ CUDA 和 CuTe 都是 `.cu`，include 不同，不要混在一个目录。
 | [`kernels/cuda/layernorm.cu`](kernels/cuda/layernorm.cu) | LayerNorm（Two-Pass Baseline） |
 | [`kernels/cuda/welfordLayerNorm.cu`](kernels/cuda/welfordLayerNorm.cu) | LayerNorm（Welford 算法 Single-Pass / Chan's 并行归约） |
 | [`kernels/cuda/rmsnorm.cu`](kernels/cuda/rmsnorm.cu) | RMSNorm |
+| [`kernels/cuda/transpose.cu`](kernels/cuda/transpose.cu) | float4 向量化矩阵转置（Shared Memory 消除 Bank Conflict） |
 | [`kernels/cuda/quant/int8_per_token.cu`](kernels/cuda/quant/int8_per_token.cu) | int8 per-token quant |
 | [`kernels/cute/gemm/bf16_tn_sm80.cu`](kernels/cute/gemm/bf16_tn_sm80.cu) | SM80 BF16 TN GEMM |
 | [`kernels/triton/layernorm.py`](kernels/triton/layernorm.py) | LayerNorm |
