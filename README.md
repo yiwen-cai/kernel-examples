@@ -2,7 +2,7 @@
 
 在 Mac 上写 Triton / CUDA / CuTe 模板 kernel：跳转、补全能用，**不能编译、不能跑**。
 
-CUDA Toolkit 和 CUTLASS 头文件、Triton 源码都由 `scripts/bootstrap_lsp.sh` 拉到 `third_party/`（不进 git）。没有 GPU、没有 `nvcc`。
+CUDA Toolkit 和 CUTLASS 头文件、Triton 源码都由 [`scripts/bootstrap_lsp.sh`](scripts/bootstrap_lsp.sh) 拉到 `third_party/`（不进 git）。没有 GPU、没有 `nvcc`。
 
 ## 快速开始
 
@@ -16,9 +16,9 @@ CUDA Toolkit 和 CUTLASS 头文件、Triton 源码都由 `scripts/bootstrap_lsp.
 
 | 栈 | 文件 | 应能跳到 |
 |---|---|---|
-| Triton | `examples/triton/smoke_add.py` | `tl.load` |
-| CUDA | `examples/cuda/smoke_add.cu` | `cudaMalloc` |
-| CuTe | `examples/cute/smoke_tensor.cu` | `cute::make_tensor` |
+| Triton | [`examples/triton/smoke_add.py`](examples/triton/smoke_add.py) | `tl.load` |
+| CUDA | [`examples/cuda/smoke_add.cu`](examples/cuda/smoke_add.cu) | `cudaMalloc` |
+| CuTe | [`examples/cute/smoke_tensor.cu`](examples/cute/smoke_tensor.cu) | `cute::make_tensor` |
 
 ## 目录
 
@@ -34,8 +34,8 @@ third_party/             启动脚本生成，大部分不提交
 
 层次是 **栈 → 算子 → 文件**，最多三层。同算子跨语言对照靠相对路径，例如：
 
-- `kernels/cuda/quant/int8_per_token.cu`
-- `kernels/triton/quant/int8_per_token.py`
+- [`kernels/cuda/quant/int8_per_token.cu`](kernels/cuda/quant/int8_per_token.cu)
+- [`kernels/triton/quant/int8_per_token.py`](kernels/triton/quant/int8_per_token.py)
 
 CUDA 和 CuTe 都是 `.cu`，include 不同，不要混在一个目录。
 
@@ -43,22 +43,22 @@ CUDA 和 CuTe 都是 `.cu`，include 不同，不要混在一个目录。
 
 | 路径 | 内容 |
 |---|---|
-| `kernels/cuda/layernorm.cu` | LayerNorm（Two-Pass Baseline） |
-| `kernels/cuda/welfordLayerNorm.cu` | LayerNorm（Welford 算法 Single-Pass / Chan's 并行归约） |
-| `kernels/cuda/rmsnorm.cu` | RMSNorm |
-| `kernels/cuda/quant/int8_per_token.cu` | int8 per-token quant |
-| `kernels/cute/gemm/bf16_tn_sm80.cu` | SM80 BF16 TN GEMM |
-| `kernels/triton/layernorm.py` | LayerNorm |
-| `kernels/triton/rmsnorm.py` | RMSNorm |
-| `kernels/triton/softmax.py` | softmax |
-| `kernels/triton/flashattention.py` | FlashAttention forward |
-| `kernels/triton/quant/int8_per_token.py` | int8 per-token quant |
-| `kernels/triton/quant/int8_per_group.py` | int8 per-group quant |
+| [`kernels/cuda/layernorm.cu`](kernels/cuda/layernorm.cu) | LayerNorm（Two-Pass Baseline） |
+| [`kernels/cuda/welfordLayerNorm.cu`](kernels/cuda/welfordLayerNorm.cu) | LayerNorm（Welford 算法 Single-Pass / Chan's 并行归约） |
+| [`kernels/cuda/rmsnorm.cu`](kernels/cuda/rmsnorm.cu) | RMSNorm |
+| [`kernels/cuda/quant/int8_per_token.cu`](kernels/cuda/quant/int8_per_token.cu) | int8 per-token quant |
+| [`kernels/cute/gemm/bf16_tn_sm80.cu`](kernels/cute/gemm/bf16_tn_sm80.cu) | SM80 BF16 TN GEMM |
+| [`kernels/triton/layernorm.py`](kernels/triton/layernorm.py) | LayerNorm |
+| [`kernels/triton/rmsnorm.py`](kernels/triton/rmsnorm.py) | RMSNorm |
+| [`kernels/triton/softmax.py`](kernels/triton/softmax.py) | softmax |
+| [`kernels/triton/flashattention.py`](kernels/triton/flashattention.py) | FlashAttention forward |
+| [`kernels/triton/quant/int8_per_token.py`](kernels/triton/quant/int8_per_token.py) | int8 per-token quant |
+| [`kernels/triton/quant/int8_per_group.py`](kernels/triton/quant/int8_per_group.py) | int8 per-group quant |
 
 ## 怎么加新 kernel
 
 1. 先按栈选目录：`kernels/cuda/`、`kernels/cute/` 或 `kernels/triton/`。
-2. 该算子只有一份实现时，文件直接放在栈目录下，例如 `kernels/triton/softmax.py`。
+2. 该算子只有一份实现时，文件直接放在栈目录下，例如 [`kernels/triton/softmax.py`](kernels/triton/softmax.py)。
 3. 会有多个变体再建模：`quant/`、`gemm/`。
 4. CuTe / CUDA 文件名：`{dtype}_{layout}_{arch}.cu`，例如 `bf16_tn_sm80.cu`。不要再开 `sm80/` 目录。
 5. Triton 一般不写 arch。一个 `.py` 里一个 `@triton.jit`。
@@ -68,9 +68,9 @@ CUDA 和 CuTe 都是 `.cu`，include 不同，不要混在一个目录。
 
 | 文件 | 作用 |
 |---|---|
-| `pyrightconfig.json` | Pylance：`extraPaths` 指向 vendored Triton；`include` 含 `kernels/`、`examples/` |
-| `.clangd` + `compile_flags.txt` | `kernels/cuda`、`examples/cuda` 用 Clang CUDA 前端；CuTe 仍当 C++ 解析 |
-| `.vscode/settings.json` | 解释器、clangd、关掉 Microsoft C++ IntelliSense |
+| [`pyrightconfig.json`](pyrightconfig.json) | Pylance：`extraPaths` 指向 vendored Triton；`include` 含 `kernels/`、`examples/` |
+| [`.clangd`](.clangd) + [`compile_flags.txt`](compile_flags.txt) | `kernels/cuda`、`examples/cuda` 用 Clang CUDA 前端；CuTe 仍当 C++ 解析 |
+| [`.vscode/settings.json`](.vscode/settings.json) | 解释器、clangd、关掉 Microsoft C++ IntelliSense |
 
 `compile_flags.txt` 的 `-I` 相对仓库根，kernel 放在子目录里仍然能跳转到 CUTLASS。
 
