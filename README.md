@@ -63,7 +63,7 @@ CUDA 和 CuTe 都是 `.cu`，include 不同，不要混在一个目录。
 | 文件 | 作用 |
 |---|---|
 | `pyrightconfig.json` | Pylance：`extraPaths` 指向 vendored Triton；`include` 含 `kernels/`、`examples/` |
-| `.clangd` + `compile_flags.txt` | `.cu` 当 C++ 解析；include CUDA / CUTLASS 头 |
+| `.clangd` + `compile_flags.txt` | `kernels/cuda`、`examples/cuda` 用 Clang CUDA 前端；CuTe 仍当 C++ 解析 |
 | `.vscode/settings.json` | 解释器、clangd、关掉 Microsoft C++ IntelliSense |
 
 `compile_flags.txt` 的 `-I` 相对仓库根，kernel 放在子目录里仍然能跳转到 CUTLASS。

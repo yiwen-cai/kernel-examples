@@ -1,4 +1,5 @@
-// Mac clangd helpers (C++ parse mode, no real CUDA frontend).
+// Mac clangd helpers for CuTe files (C++ parse mode, no CUDA frontend).
+// Raw CUDA under kernels/cuda and examples/cuda uses -x cuda instead.
 //
 // Do NOT define __CUDACC__ in .clangd: cuda_runtime.h then pulls
 // crt/common_functions.h -> math_functions.h, which conflicts with Apple libc++.
@@ -24,6 +25,10 @@ void __syncwarp(unsigned mask = 0xffffffff);
 unsigned __ballot_sync(unsigned mask, int predicate);
 int __all_sync(unsigned mask, int predicate);
 int __any_sync(unsigned mask, int predicate);
+
+// CUDA math (rsqrtf / rsqrt) lives in math_functions.h, gated on __CUDACC__.
+float rsqrtf(float x);
+double rsqrt(double x);
 
 // Conversion intrinsics live in crt/device_functions.h, gated on __CUDACC__.
 int __float2int_rn(float x);

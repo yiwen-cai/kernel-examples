@@ -1,8 +1,40 @@
 # Apple clangd does not expand %/ (config-file directory). Relative -I paths in
 # this file are resolved against the source file's directory, so include paths
 # live in compile_flags.txt (its directory becomes the compile CWD).
+#
+# Raw CUDA (kernels/cuda, examples/cuda): real Clang CUDA frontend.
+# rsqrtf / threadIdx / __shfl_* come from __clang_cuda_*.h, not stubs.
 If:
-  PathMatch: .*\.(cu|cuh)$
+  PathMatch: .*/cuda/.*\.(cu|cuh)$
+CompileFlags:
+  Add:
+    - -x
+    - cuda
+    - -std=c++17
+    - -nocudalib
+    - --cuda-gpu-arch=sm_80
+    - --cuda-path=third_party/cuda-toolkit
+    - -isystem
+    - third_party/lsp
+    - -D__CUDACC_VER_MAJOR__=12
+    - -D__CUDACC_VER_MINOR__=9
+    - -DCUTLASS_ARCH_MMA_SM90_SUPPORTED=1
+    - -Wno-ignored-attributes
+    - -Wno-unknown-cuda-version
+    - -Wno-invalid-specialization
+Diagnostics:
+  Suppress:
+    - unknown-cuda-version
+    - variadic_device_fn
+    - attributes_not_allowed
+    - invalid-specialization
+
+---
+
+# CuTe / CUTLASS: stay on C++ parse. Apple clang -x cuda + CUTLASS hits
+# host-only assert() in device code and PTX that this frontend rejects.
+If:
+  PathMatch: .*/cute/.*\.(cu|cuh)$
 CompileFlags:
   Add:
     - -xc++
@@ -16,8 +48,6 @@ CompileFlags:
     - -DCUTLASS_ARCH_MMA_SM90_SUPPORTED=1
     - -Wno-ignored-attributes
     - -Wno-unknown-cuda-version
-    # CuTe specializes std::is_reference for subbyte_reference; Apple libc++
-    # marks that trait [[no_specializations]] (DefaultError).
     - -Wno-invalid-specialization
 Diagnostics:
   Suppress:

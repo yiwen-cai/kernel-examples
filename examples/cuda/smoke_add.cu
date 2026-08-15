@@ -17,8 +17,8 @@ int main() {
   cudaMalloc(reinterpret_cast<void **>(&b), n * sizeof(float));
   cudaMalloc(reinterpret_cast<void **>(&c), n * sizeof(float));
 
-  // Launch syntax <<<>>> is CUDA-only; call as a normal function for C++ clangd.
-  add_kernel(a, b, c, n);
+  // Do not call the kernel: Clang 21 lowers <<<>>> to cudaConfigureCall,
+  // which CUDA 12 removed, and a direct __global__ call is also illegal.
   cudaDeviceSynchronize();
 
   cudaFree(a);

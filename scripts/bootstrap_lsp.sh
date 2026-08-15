@@ -78,6 +78,18 @@ if [[ -d "$CUDA_SITE/nvidia/cuda_nvcc/bin" ]]; then
   rsync -a "$CUDA_SITE/nvidia/cuda_nvcc/bin"/ "$CUDA_TK/bin/" || true
 fi
 
+# Clang's CUDA wrapper always #include's this; runtime wheels do not ship it.
+if [[ -f "$ROOT/third_party/lsp/curand_mtgp32_kernel.h" ]]; then
+  cp "$ROOT/third_party/lsp/curand_mtgp32_kernel.h" "$CUDA_TK/include/curand_mtgp32_kernel.h"
+fi
+
+# Optional: makes --cuda-path look like a real toolkit if -nocudalib is dropped.
+if [[ -f "$CUDA_SITE/nvidia/cuda_nvcc/nvvm/libdevice/libdevice.10.bc" ]]; then
+  mkdir -p "$CUDA_TK/nvvm/libdevice"
+  cp "$CUDA_SITE/nvidia/cuda_nvcc/nvvm/libdevice/libdevice.10.bc" \
+    "$CUDA_TK/nvvm/libdevice/libdevice.10.bc"
+fi
+
 if [[ ! -f "$CUDA_TK/include/cuda.h" ]]; then
   log "cuda.h missing from wheels; writing forward stub"
   cat >"$CUDA_TK/include/cuda.h" <<'EOF'
@@ -213,6 +225,7 @@ checks=(
   "$CUDA_TK/include/cuda_runtime.h"
   "$CUTLASS_DIR/include/cute/tensor.hpp"
   "$ROOT/third_party/lsp/cuda_keywords.h"
+  "$CUDA_TK/include/curand_mtgp32_kernel.h"
 )
 for f in "${checks[@]}"; do
   [[ -f "$f" ]] || die "missing required file: $f"
