@@ -229,6 +229,7 @@ checks=(
   "$CUDA_TK/include/cuda_runtime.h"
   "$CUTLASS_DIR/include/cute/tensor.hpp"
   "$ROOT/third_party/lsp/cuda_keywords.h"
+  "$ROOT/third_party/lsp/cuda_host_compat.h"
   "$CUDA_TK/include/curand_mtgp32_kernel.h"
 )
 for f in "${checks[@]}"; do

@@ -47,12 +47,14 @@ CUDA 和 CuTe 都是 `.cu`，include 不同，不要混在一个目录。
 | [`kernels/cuda/welfordLayerNorm.cu`](kernels/cuda/welfordLayerNorm.cu) | LayerNorm（Welford 算法 Single-Pass / Chan's 并行归约） |
 | [`kernels/cuda/rmsnorm.cu`](kernels/cuda/rmsnorm.cu) | RMSNorm |
 | [`kernels/cuda/transpose.cu`](kernels/cuda/transpose.cu) | float4 向量化矩阵转置（Shared Memory 消除 Bank Conflict） |
+| [`kernels/cuda/scan.cu`](kernels/cuda/scan.cu) | inclusive / exclusive scan（单 Block 共享内存与多 Block 三段式流水线） |
 | [`kernels/cuda/quant/int8_per_token.cu`](kernels/cuda/quant/int8_per_token.cu) | int8 per-token quant |
 | [`kernels/cute/gemm/bf16_tn_sm80.cu`](kernels/cute/gemm/bf16_tn_sm80.cu) | SM80 BF16 TN GEMM |
 | [`kernels/triton/layernorm.py`](kernels/triton/layernorm.py) | LayerNorm |
 | [`kernels/triton/rmsnorm.py`](kernels/triton/rmsnorm.py) | RMSNorm |
 | [`kernels/triton/softmax.py`](kernels/triton/softmax.py) | softmax |
 | [`kernels/triton/flashattention.py`](kernels/triton/flashattention.py) | FlashAttention forward |
+| [`kernels/triton/scan.py`](kernels/triton/scan.py) | inclusive scan（`tl.cumsum` 实现） |
 | [`kernels/triton/quant/int8_per_token.py`](kernels/triton/quant/int8_per_token.py) | int8 per-token quant |
 | [`kernels/triton/quant/int8_per_group.py`](kernels/triton/quant/int8_per_group.py) | int8 per-group quant |
 
