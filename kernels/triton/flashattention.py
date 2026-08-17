@@ -17,7 +17,7 @@ def flashattention(q_ptr, k_ptr, v_ptr, o_ptr, sqh, skh, svh, soh, S, scale, BQ,
 	q = tl.load(q_blk, boundary_check=(0,), padding_option="zero")
 	m_i = tl.full(shape=[BQ], value=float('-inf'), dtype=tl.float32)
 	l_i = tl.zeros(shape=[BQ])
-	o_i = tl.zeros(shape=[BQ])
+	o_i = tl.zeros(shape=[BQ, D])
 	q_off = pid_q * sqh + tl.arange(0, BQ)
 	for k0 in range(0, S, BK):
 		k_off = tl.arange(k0, k0+BK)
