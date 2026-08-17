@@ -1,6 +1,9 @@
 import triton
 import triton.language as tl
 
+# x: [*, N]
+# q: [*, N]
+# s: [*,]
 @triton.jit
 def int8_per_token_quant(x_ptr, q_ptr, s_ptr, N, BLOCK: tl.constexpr):
     row = tl.program_id(0)

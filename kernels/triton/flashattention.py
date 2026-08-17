@@ -1,6 +1,10 @@
 import triton
 import triton.language as tl
 
+# q: [*, S, D]
+# k: [*, S, D]
+# v: [*, S, D]
+# o: [*, S, D]
 @triton.jit
 def flashattention(q_ptr, k_ptr, v_ptr, o_ptr, sqh, skh, svh, soh, S, scale, BQ, BK, D):
 	pid_h = tl.program_id(0)

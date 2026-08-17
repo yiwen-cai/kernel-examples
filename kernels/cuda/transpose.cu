@@ -4,6 +4,8 @@
 
 // one block transpose one tile
 // per block 1024 threads
+// A: [M, N]
+// B: [N, M]
 __global__ void transpose(float *A, float *B, int M, int N) {
   int tile_m = blockIdx.y;
   int tile_n = blockIdx.x;

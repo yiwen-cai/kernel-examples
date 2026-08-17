@@ -2,6 +2,9 @@ import triton
 import triton.language as tl
 
 
+# x: [*, N]
+# g: [N,]
+# o: [*, N]
 @triton.jit
 def rmsnorm(x_ptr, g_ptr, o_ptr, eps, N, BLOCK):
     row = tl.program_id(0)

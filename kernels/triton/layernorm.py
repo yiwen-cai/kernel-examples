@@ -2,6 +2,10 @@ import triton
 import triton.language as tl
 
 
+# x: [*, N]
+# w: [N,]
+# b: [N,]
+# o: [*, N]
 @triton.jit
 def layerNorm(x_ptr, w_ptr, b_ptr, o_ptr, N, eps, BLOCK):
     row = tl.program_id(0)

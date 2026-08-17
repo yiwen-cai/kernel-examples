@@ -10,6 +10,9 @@ __device__ float warpSumReduce(float localSum) {
 
 // per block per row
 // 1024 threads per block
+// x: [*, N]
+// o: [*, N]
+// g: [N,]
 __global__ void rmsnorm(float *x, float *o, float *g, float eps, int N) {
 	int tid = threadIdx.x;
 	int row = blockIdx.x;

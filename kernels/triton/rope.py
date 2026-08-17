@@ -1,6 +1,10 @@
 import triton
 import triton.language as tl
 
+# x: [*, S, D]
+# o: [*, S, D]
+# cos: [S, D/2]
+# sin: [S, D/2]
 @triton.jit
 def rope(x_ptr, o_ptr, cos_ptr, sin_ptr, S, D: tl.constexpr):
 	pid = tl.program_id(0)

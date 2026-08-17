@@ -1,5 +1,9 @@
 #include <cuda_runtime.h>
 
+// x: [*, S, D]
+// o: [*, S, D]
+// cos: [S, D/2]
+// sin: [S, D/2]
 __global__ void rope(float *x, float *o, float *cos, float *sin, int S, int D) {
 	int tid = threadIdx.x;
 	int stride = blockDim.x;

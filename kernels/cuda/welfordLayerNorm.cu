@@ -90,6 +90,10 @@ __device__ __forceinline__ welfordState blockReduceWelford(welfordState s) {
   return welfordState{blockMean, blockM2, blockCount};
 }
 
+// x: [*, N]
+// o: [*, N]
+// w: [N,]
+// b: [N,]
 __global__ void welfordLayerNorm(float *x, float *o, float *w, float *b,
                                  float eps, int N) {
   int tid = threadIdx.x;

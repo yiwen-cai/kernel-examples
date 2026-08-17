@@ -2,6 +2,8 @@ import triton
 import triton.language as tl
 
 
+# x: [*, N]
+# o: [*, N]
 @triton.jit
 def scan(x_ptr, o_ptr, N, BLOCK):
     row = tl.program_id(0)

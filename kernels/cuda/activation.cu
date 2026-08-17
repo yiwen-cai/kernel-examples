@@ -5,6 +5,7 @@ __device__ __forceinline__ float sigmoid(float x) {
 }
 
 // x: [N,]
+// o: [N,]
 __global__ void silu(float *x, float *o, int N) {
 	int i = blockDim.x * blockIdx.x + threadIdx.x;
 	int stride = gridDim.x * blockDim.x;
@@ -15,6 +16,9 @@ __global__ void silu(float *x, float *o, int N) {
 	}
 }
 
+// x_1: [N,]
+// x_2: [N,]
+// o: [N,]
 __global__ void gilu(float *x_1, float *x_2, float *o, int N) {
 	int i = blockDim.x * blockIdx.x + threadIdx.x;
 	int stride = gridDim.x * blockDim.x;

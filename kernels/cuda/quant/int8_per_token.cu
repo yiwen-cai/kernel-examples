@@ -10,6 +10,9 @@ __device__ float warp_reduce_max(float local_max) {
   return local_max;
 }
 
+// x: [*, N]
+// q: [*, N]
+// s: [*,]
 __global__ void int8_per_token_quant(float *x, int8_t *q, float *s, int N) {
   // one block one row
   // one block 32 warps, 1024 threads

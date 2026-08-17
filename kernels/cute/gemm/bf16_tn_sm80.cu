@@ -1,5 +1,7 @@
 // SM80 BF16 TN GEMM：cp.async + ldmatrix + mma.sync
-// A:(M,K) row-major；B:(N,K) row-major（均为 K 连续）；C:(M,N) row-major
+// A: [M, K]  row-major, K-contiguous
+// B: [N, K]  row-major, K-contiguous
+// C: [M, N]  row-major
 // 参考：cutlass/examples/cute/tutorial/sgemm_sm80.cu
 #include <cute/tensor.hpp>
 using namespace cute;

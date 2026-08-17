@@ -4,6 +4,8 @@
 
 // per block per row
 // n must less than BLOCK_SIZE
+// x: [*, n]
+// o: [*, n]
 __global__ void scan(const float *x, float *o, int n, int isExclusive) {
   int tid = threadIdx.x;
   int row = blockIdx.x;
@@ -35,6 +37,9 @@ __global__ void scan(const float *x, float *o, int n, int isExclusive) {
 }
 
 // n >> BLOCK_SIZE
+// x: [n,]
+// o: [n,]
+// blockSum: [cdiv(n, BLOCK_SIZE),]
 __global__ void blockScan(const float *x, float *o, int n, float *blockSum) {
   int tid = threadIdx.x;
   int bid = blockIdx.x;
@@ -62,6 +67,8 @@ __global__ void blockScan(const float *x, float *o, int n, float *blockSum) {
     blockSum[bid] = sum[read][tid];
 }
 
+// o: [n,]
+// blockOff: [cdiv(n, BLOCK_SIZE),]
 __global__ void addAllBlocks(float *o, const float *blockOff, int n) {
   int tid = threadIdx.x;
   int bid = blockIdx.x;
@@ -78,6 +85,8 @@ __global__ void addAllBlocks(float *o, const float *blockOff, int n) {
   }
 }
 
+// x: [n,]
+// o: [n,]
 void multiBlockScan(const float *x, float *o, int n) {
   int numBlocks = (n + BLOCK_SIZE - 1) / BLOCK_SIZE;
 

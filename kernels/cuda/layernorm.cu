@@ -37,6 +37,10 @@ __device__ float blockReduceSum(float localSum) {
 
 // per block per token
 // per block 1024 threads
+// x: [*, N]
+// o: [*, N]
+// w: [N,]
+// b: [N,]
 __global__ void layerNorm(float *x, float *o, float *w, float *b, int N,
                           float eps) {
   int tid = threadIdx.x;
